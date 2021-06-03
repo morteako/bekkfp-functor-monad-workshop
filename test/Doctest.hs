@@ -1,5 +1,5 @@
 import System.Environment (getArgs)
-import Test.DocTest
+import Test.DocTest (doctest)
 
 main :: IO ()
 main = do
