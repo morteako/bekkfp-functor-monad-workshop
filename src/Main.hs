@@ -1,14 +1,8 @@
 module Main where
 
 -- | Compute Fibonacci numbers
---
--- Examples:
---
--- >>> fib 10
--- 10
---
 -- >>> fib 5
--- 5
+-- 30
 fib :: Int -> Int
 fib = id
 
