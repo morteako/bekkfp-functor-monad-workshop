@@ -5,7 +5,7 @@ module Main where
 -- Examples:
 --
 -- >>> fib 10
--- 55
+-- 10
 --
 -- >>> fib 5
 -- 5
