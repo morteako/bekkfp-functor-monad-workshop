@@ -1,1 +1,1 @@
-# bekkfp-functor-monad-workshop
+# bekkfp-functor-monad-workkshop
