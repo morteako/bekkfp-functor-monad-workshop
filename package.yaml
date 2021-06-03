@@ -23,5 +23,5 @@ executables:
 tests:
   doctests:
     main: Doctest.hs
-    source-dirs: tests
+    source-dirs: test
     

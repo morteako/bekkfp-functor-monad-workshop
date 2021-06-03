@@ -1,1 +1,1 @@
--c="stack ghci tests/Doctest.hs" -T=main --reload=.
+-c="stack ghci test/Doctest.hs" -T=main --reload=.
