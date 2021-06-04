@@ -10,9 +10,15 @@ import Prelude hiding (fmap, map)
 fib :: Int -> Int
 fib = id
 
-class MyFunctor (f :: * -> *) where
-  map :: (a -> b) -> f a -> f b
+-- class MyFunctor (f :: * -> *) where
+--   fmap :: (a -> b) -> f a -> f b
 
-instance MyFunctor Maybe where
-  map f Nothing = Nothing
-  map f (Just x) = Just (f x)
+-- class MyFunctor2 f where
+--   fmap2 :: (a -> b) -> f a -> f b
+
+-- instance MyFunctor Maybe where
+--   fmap f Nothing = Nothing
+--   fmap f (Just x) = Just (f x)
+
+-- instance MyFunctor (Either a) where
+--   fmap = undefined

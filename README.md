@@ -1,9 +1,12 @@
 # bekkfp-functor-monad-workkshop
 
+
 ## Installering 
 
+clone https://github.com/morteako/bekkfp-functor-monad-workshop
+
 Må ha :
-Stack
+Stack 
 
 Kjekt å ha :
 ghcid - `stack install ghcid` or `cabal update && cabal install ghcid`
