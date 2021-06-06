@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 30e01d9e2c6c56abb805cc632079d59f609df2f308b344eca172ee81051570fb
+-- hash: 2666fd652618c74ea39c401ee29d034d04a5fa9501288e85ee2027c122d54404
 
 name:           bekkfp-functor-monad-workkshop
 version:        0.1.0.0
@@ -23,6 +23,7 @@ executable bekkfp-functor-monad-workkshop
   main-is: Main.hs
   other-modules:
       Functors
+      FunctorsExtra
       Intro
       Monads
       MonadsDo
