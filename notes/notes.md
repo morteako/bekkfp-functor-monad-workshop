@@ -140,33 +140,44 @@ ordEq a b = a == b
     * Either Int String :: *
     * Tuple :: * -> * -> *
 ---
+
 ## Higher kinded types
----
 
-hvorfor, hva
-Interface ish
-Elm
+I Haskell kan man abstrahere og bruke higher kinded types.
+Feks i egne datatyper.
 
 
-
-
-vanlige type classes og basic instances
-typesignaturer =>
-superklasser
-
-Typer
-kinds
-higher kinded types
-Typekonstruktører
-Maybe, List
-
+```haskell
 data IntContainer (f :: *  -> *) = IntContainer (f Int)
 
 IntCointainer (Just 1) :: IntContainer Maybe
 IntCointainer [1] :: IntContainer []
+```
+---
+## Eller i type classes
+```haskell
+class Summable (f :: * -> *) where
+    sumInts :: f Int -> Int
 
-## Felles oppgaver
+instance Summable Maybe where
+    sumInts Nothing = 0
+    sumInts (Just x) = x
 
+> sumInts (Just 3)
+3
+
+instance Summable List where
+    sumInts [] = 0
+    sumInts (x:xs) = x + sumInts xs
+
+> sumInts [1,2,3,4,5]
+15
+```
+
+---
+## Felles oppgaver - Intro.hs
+
+---
 
 Hva?
 
