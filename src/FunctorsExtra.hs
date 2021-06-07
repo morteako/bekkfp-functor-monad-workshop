@@ -14,4 +14,9 @@ setValue = undefined
 data State s a = State (s -> (a, s))
 
 instance Functor (State s) where
-  fmap = undefined
+  fmap = error "TODO"
+
+data Const a b = Const a
+
+instance Functor (Const a) where
+  fmap = error "TODO"

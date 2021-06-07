@@ -314,6 +314,13 @@ Just ["1","2","3"]
 Uten en functor-typeclasse så måtte man skrevet en implementasjon av denne funksjonen per kombinasjon av to functorer
 ---
 
+# Hvorfor generalisere?
+* mindre endringer når man endrer typer
+* kan skrive generelle funksjoner 
+* parametricity => Functor f sier mye mer enn Model/DataType, ved å begrense hva man kan gjøre. Lettere å forstå
+* kan også gi opphav til implementasjson av lenses : forall f. Functor f => (a -> f b) -> s -> f t
+---
+
 # Lover
 ## Hvordan forventer vi at en fmap-funksjon oppfører seg?
 * Mappe en funksjon som ikke gjør noe returnerer samme verdi
@@ -341,44 +348,8 @@ instance Functor Two where
 ```
 ---
 
-oppgavene : implementere functor
+# Oppgaver
 
---Maybe
-Either
-List
-
-data Identity a = Identity a 
-State
-Const
-Tuple
-->
-
-remoteData
-
-
-setValue :: Functor f => b -> f a -> f b
-setValue = undefined 
-
-setValue "hei" [1,2] = ["hei","hei"]
-
-range :: Int -> [Int]
-
-kan man bruke kun fmap og range for å få [0,1,2] -> [0,1,2,3,4,546]?
-
-
-
-Composable
-Product?
-
-Hvorfor generalisere?
-fmap => mindre refaktorering
-kan skrive generelle funksjoner (feks <$) 
-parametricity => Functor f sier mye mer enn Model/DataType, ved å begrense
-kan også gi opphav til implementasjson av lenses : forall f. Functor f => (a -> f b) -> s -> f t
-
-DeriveFunctor
-
-data S a = ... derive Functor
 
 
 ---------------
