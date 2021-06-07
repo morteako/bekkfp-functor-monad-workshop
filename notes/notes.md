@@ -114,13 +114,13 @@ ordEq a b = a == b
 
 ## Typer og kinds
 
-* Verdier er av en type 
-    * "Hei" er av typen String
-    * True er av typen Bool
+* Verdier har en type 
+    * "Hei" har typen String
+    * True har typen Bool
 * Men hva med Maybe? List?
-  * Man har ingen verdier av typen Maybe eller List
+  * Ingen verdier som har typen Maybe eller List
   * Når man gir Maybe og List typer som argumenter, feks Maybe Int og List Bool, da kan de ha verdier
-* Maybe og List er typekonstruktører, de 
+* Maybe og List er typekonstruktører
 * Disse kan klassifiser ved hjelp av kinds, et typesystem for typer
 
 ---

@@ -1,11 +1,13 @@
 module Intro where
 
--- | Compute Fibonacci numbers
--- >>> fib 5
--- 5
-fib :: Int -> Int
-fib = id
+data RemoteData e a
+  = NotAsked
+  | Loading
+  | Failure e
+  | Success a
 
--- mapMaybe :: (a -> b) -> Maybe a -> Maybe
--- mapList :: (a -> b) -> List a -> List b
--- fmapp :: Functor f => (a -> b) -> f a -> f b
+--implementer Show og Eq
+
+--Lag en type class for "containers/collections" som kan ha 0 eller flere elementer
+--en funksjon som heter isEmpty som sier true eller false
+--en funksjon first som gir første element, hvis det finnes, wrappet i en maybe
