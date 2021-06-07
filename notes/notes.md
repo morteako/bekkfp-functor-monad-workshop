@@ -178,42 +178,168 @@ instance Summable List where
 ## Felles oppgaver - Intro.hs
 
 ---
+# Functors
+## Typer som kan bli mappet over
+---
+## Functors
+* Man vil ofte transformere data 
+* Et standard eksempel er å mappe en funksjon over en liste
+    * Deklarativt
+    * Lettere å generalisere funksjon enn features i språket (loops)
+---
+```haskell
+mapList :: (a->b) -> List a -> List b
+mapList f [] = []
+mapList f (x:xs) = f x : map f xs
 
-Hva?
+> mapList not []
+[]
 
+> mapList not [True,False]
+[False,True]
+```
 
-Eksempler på map-funksjoner
+---
+# Map - Maybe a
+
 
 ```haskell
 mapMaybe :: (a->b) -> Maybe a -> Maybe b
-mapList :: (a -> b) -> List a -> List b
+mapMaybe f Nothing = Nothing
+mapMaybe f (Just x) = Just (f x)
+
+> mapMaybe show Nothing
+Nothing
+
+> mapMaybe show (Just 1)
+Just "1"
 ```
 
-
-a -> b -> f a -> f b
-
-type List a = []
+---
+# Map - Either e a
 
 
+```haskell
+mapEither :: (a->b) -> Either e a -> Either e a
+mapEither f (Right a) = Right (f a)
+mapEither f (Left e) = Left e
 
+> mapEither (+1) (Left True)
+Left True
 
+> mapEither (+1) (Right 1)
+Right 2
+```
 
-Hva vil vi?
+---
+# Sammenligne map-funksjonene
 
-Hva forventer vi av en map?
-Mappe en funksjon som ikke gjør noe returnerer samme verdi
-Mappe flere ganger er samme som en gang
+```haskell
+mapList :: (a -> b) -> List a -> List b
+mapMaybe :: (a->b) -> Maybe a -> Maybe b
+mapEither :: (a->b) -> Either e a -> Either e b
+```
+---
+# Sammenligne map-funksjonene
+## Litt formattering
+```haskell
+mapList     :: (a->b)   -> List         a -> List       b
+mapMaybe    :: (a->b)   -> Maybe        a -> Maybe      b
+mapEither   :: (a->b)   -> (Either e)   a -> (Either e) b
+```
+## Hvordan skal vi generalisere det her?
+---
 
+## Ser at det er en typekonstruktør
+```haskell
+mapList     :: (a->b)   -> List         a -> List       b
+mapMaybe    :: (a->b)   -> Maybe        a -> Maybe      b
+mapEither   :: (a->b)   -> (Either e)   a -> (Either e) b
 
+mapGeneralized :: (a->b) -> f a -> f b
+```
+f er da en higher kinded type
+## Lage en type class
+Siden det er forskjellig implementasjon per type trenger vi en type class
 
+```haskell
+type class Functor (f :: * -> *) where
+    fmap :: (a->b) -> f a -> f b
+```
 
-Generaliserer
+Man kan se det som at man løfter en funksjon til å jobbe på et høyere nivå.
+Feks fra Int -> Int til Maybe Int -> Maybe Int
 
-Functor
-løfte en funksjon opp/inn i "f" 
-fra (a -> b) til (f a -> f b)
-feks
-(Int -> String) til [Int] -> [String]
+Instancene kan lages ved si at fmap = mapList eller mapMaybe osv. Eller man kan definere funksjonen i instancen
+
+```haskell
+instance Functor Maybe where
+    fmap :: (a->b) -> Maybe a -> Maybe b
+    fmap = mapMaybe
+```
+
+```haskell
+instance Functor (Either e) where
+    fmap :: (a->b) -> (Either e) a -> (Either e) b
+    fmap f (Right a) = Right (f a)
+    fmap f (Left e) = Left e
+```
+(Typesignaturen er ikke nødvendig, bare for å hjelpe)
+
+---
+# Lage funksjoner som funker for alle Functors
+```haskell
+mapAddOne :: Functor f => f Int -> f Int
+mapAddOne = fmap (+1)
+```
+
+I Elm så måtte vi ha laget en per Functor, altså
+mapAddOneMaybe, mapAddOneList, mapAddOneEither osvosv
+
+---
+
+# Lage funksjoner som funker for alle Functors
+```haskell
+deepShow :: (Functor f, Functor g, Show a) => f (g a) -> f (g String)
+deepShow = fmap (fmap show)
+
+-- her er f List, g Maybe og a Int
+> deepShow [Just 1, Nothing, Just 3]
+[Just "1",Nothing,Just "3"]
+
+-- her er f Maybe, g List og a Int
+> deepShow (Just [1,2,3])
+Just ["1","2","3"]
+```
+Uten en functor-typeclasse så måtte man skrevet en implementasjon av denne funksjonen per kombinasjon av to functorer
+---
+
+# Lover
+## Hvordan forventer vi at en fmap-funksjon oppfører seg?
+* Mappe en funksjon som ikke gjør noe returnerer samme verdi
+    * fmap id x = x
+    * id er identitetsfunksjonen, altså id a = a
+* Mappe flere ganger er samme som en gang
+    * fmap f (fmap g) x = fmap (f . g) x
+    * Dette følger automatisk i Haskell av første regelen
+
+---
+
+## Lovlig og ulovlig functor instance
+### Hvilken av disse functor instancene er lovlige/ulovlige og hvorfor?
+```haskell
+data Two a = Two a a
+
+instance Functor Two where
+    fmap f (Two a1 a2) = Two (f a1) (f a2) 
+
+instance Functor Two where
+    fmap f (Two a1 a2) = Two (f a1) (f a1)
+
+instance Functor Two where
+    fmap f (Two a1 a2) = Two (f a2) (f a1)
+```
+---
 
 oppgavene : implementere functor
 

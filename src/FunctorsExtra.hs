@@ -10,3 +10,8 @@ module FunctorsExtra where
 -- ["a","a"]
 setValue :: Functor f => a -> f b -> f a
 setValue = undefined
+
+data State s a = State (s -> (a, s))
+
+instance Functor (State s) where
+  fmap = undefined
