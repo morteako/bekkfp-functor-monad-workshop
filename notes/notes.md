@@ -186,6 +186,8 @@ instance Summable List where
 * Et standard eksempel er å mappe en funksjon over en liste
     * Deklarativt
     * Lettere å generalisere funksjon enn features i språket (loops)
+* En generalisering av containers / boks
+    * Den abstraksjonen blir nok strukket litt langt
 ---
 ```haskell
 mapList :: (a->b) -> List a -> List b
