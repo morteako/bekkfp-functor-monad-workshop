@@ -2,16 +2,69 @@
 marp:true
 marp: true
 ---
+<!-- paginate: true -->
 # Functors og Monads
 ## Plan
 * Kort gjennomgang av Haskell-konsepter
 * Functors
 * Monads
 ---
+# Vanskelig tema 
+* Lærer forskjellig
+* Abstrakt
+* Alternative fremgangsmåter
+* Forskjellige læringsmåter
+* Noe som blir sagt kan være liltt upresist for å slippe detaljer
+
+---
 ## Haskell
+* Snakker litt om konsepter i Haskell. Generelt, ikke spesifikt for Functors og Monads. 
+    * Universielle konsepter
+
+* Superkort syntaksintro
 * Type classes
 * Typer og kinds
 * Higher kinded types
+
+---
+
+# Syntaks
+
+* Mye likt som Elm
+    * Elm-syntaks er ca et subset av Haskell-syntaks
+
+```haskell
+funksjonsNavn :: a -> Maybe a
+funksjonsNavn aVal = Just aVal
+```
+* en funksjon med navn funksjonsNavn
+* øverste linjen er en typedefinisjon, som sier hvilken type det er
+    * trengs som regel ikke pga type inference, men er ofte hjelpsomt
+* Generisk type a
+  * Generiske typer har små bokstaver. Konkrete typer store
+* -> sier at det er en funksjon
+    * tar inn en a og gir tilbake en Maybe a
+* aVal er navnet på argumentet
+* Just aVal er returverdien
+
+---
+
+# Funksjon med flere definisjoner
+
+## Man kan definere funksjoner en gang per case
+```haskell
+not :: Bool -> Bool
+not True = False
+not False = True
+```
+## Man har også case (som i Elm)
+```haskell
+not :: Bool -> Bool
+not b = case b of
+    True -> False
+    False -> True
+```
+
 ---
 
 ## Type classes
@@ -79,7 +132,7 @@ instance Show a => Show (Maybe a) where
 
 ## Eksempel 2 : Eq - for å sjekke likhet
 ```haskell
-class Eq a => Ord a where
+class Eq a where
     (==) :: a -> a -> Bool
 
 instance Eq Bool where
@@ -97,6 +150,7 @@ instance Eq a => Eq [a] where
 ## Superklasser
 * Type classes kan ha superklasser
 * Det betyr at man må ha en instance av superklassen for å kunne lage en instance av subklassen
+* Så alle typer som er Ord er også Eq
 ```haskell
 class Eq a => Ord a where
     (<=) :: a -> a -> Bool
@@ -122,9 +176,9 @@ ordEq a b = a == b
   * Når man gir Maybe og List typer som argumenter, feks Maybe Int og List Bool, da kan de ha verdier
 * Maybe og List er typekonstruktører
 * Disse kan klassifiser ved hjelp av kinds, et typesystem for typer
+* Higher kinded types ~ higher order functions
 
 ---
-
 * Typer med verdier (vanlige typer) har kind *
     * Int :: *
     * Bool :: *
@@ -133,7 +187,7 @@ ordEq a b = a == b
     * Maybe Int :: *
     * List :: * -> *
     * List Bool :: *
-    * Maybe Maybe : Error
+    * Maybe Maybe - Error
 * Typekonstruktører som tar inn 2 argumenter har kind * -> * -> *
     * Either :: * -> * -> *  
     * Either Int :: * -> *   
@@ -146,12 +200,20 @@ ordEq a b = a == b
 I Haskell kan man abstrahere og bruke higher kinded types.
 Feks i egne datatyper.
 
+Her tar IntContainer inn en typekonstruktør med ett argument
 
 ```haskell
 data IntContainer (f :: *  -> *) = IntContainer (f Int)
 
 IntCointainer (Just 1) :: IntContainer Maybe
-IntCointainer [1] :: IntContainer []
+    siden Maybe har kind * -> *, så passer i IntContainer
+
+IntCointainer [1] :: IntContainer List
+    siden List har kind * -> *, så den passer også inn i IntContainer
+
+--FUNKER IKKE
+IntContainer "hei" :: IntCointainer String
+    siden String har kind *, altså ikke en typekonstruktør, så passer den ikke inn og dette fungerer ikke 
 ```
 ---
 ## Eller i type classes
@@ -251,8 +313,8 @@ mapEither   :: (a->b)   -> (Either e)   a -> (Either e) b
 ```
 ## Hvordan skal vi generalisere det her?
 ---
+# Ser at det er en typekonstruktør
 
-## Ser at det er en typekonstruktør
 ```haskell
 mapList     :: (a->b)   -> List         a -> List       b
 mapMaybe    :: (a->b)   -> Maybe        a -> Maybe      b
@@ -261,6 +323,12 @@ mapEither   :: (a->b)   -> (Either e)   a -> (Either e) b
 mapGeneralized :: (a->b) -> f a -> f b
 ```
 f er da en higher kinded type
+
+---
+
+
+
+---
 ## Lage en type class
 Siden det er forskjellig implementasjon per type trenger vi en type class
 
@@ -271,6 +339,9 @@ type class Functor (f :: * -> *) where
 
 Man kan se det som at man løfter en funksjon til å jobbe på et høyere nivå.
 Feks fra Int -> Int til Maybe Int -> Maybe Int
+
+---
+
 
 Instancene kan lages ved si at fmap = mapList eller mapMaybe osv. Eller man kan definere funksjonen i instancen
 
@@ -286,13 +357,20 @@ instance Functor (Either e) where
     fmap f (Right a) = Right (f a)
     fmap f (Left e) = Left e
 ```
-(Typesignaturen er ikke nødvendig, bare for å hjelpe)
+* Typesignaturen er ikke nødvendig, bare for å hjelpe
+* (Either e) a er det samme som Either e a
 
 ---
 # Lage funksjoner som funker for alle Functors
 ```haskell
 mapAddOne :: Functor f => f Int -> f Int
 mapAddOne = fmap (+1)
+
+> mapAddOne (Just 1)
+Just 2
+
+> mapaddone [1,2,3]
+[2,3,4]
 ```
 
 I Elm så måtte vi ha laget en per Functor, altså
@@ -314,13 +392,17 @@ deepShow = fmap (fmap show)
 Just ["1","2","3"]
 ```
 Uten en functor-typeclasse så måtte man skrevet en implementasjon av denne funksjonen per kombinasjon av to functorer
+
 ---
 
 # Hvorfor generalisere?
 * mindre endringer når man endrer typer
 * kan skrive generelle funksjoner 
-* parametricity => Functor f sier mye mer enn Model/DataType, ved å begrense hva man kan gjøre. Lettere å forstå
-* kan også gi opphav til implementasjson av lenses : forall f. Functor f => (a -> f b) -> s -> f t
+* parametricity => Functor f sier mye mer enn Model/DataType
+    *  ved å begrense hva man kan gjøre er det lettere å forstå
+    *  eksempel : a -> a sier mer enn Int -> Int
+* kan også gi opphav til implementasjson av lenses : 
+    * forall f. Functor f => (a -> f b) -> s -> f t
 ---
 
 # Lover
@@ -353,8 +435,156 @@ instance Functor Two where
 # Oppgaver
 
 
-
 ---------------
+
+
+--- 
+
+# Kombinere Maybe - eksempel
+
+Vi vil ta første strengen, gjøre om til tall og gange med 10.
+Da må vi ta hensyn til at ting kan feile (Maybe).
+## Rett fram :
+```haskell
+safeHead :: [a] -> Maybe a
+safeReadInt :: String -> Maybe Int
+
+numstrs = ["3","2","3"]
+
+maybeFirstInt = case safeHead numstrs of
+    Nothing -> Nothing
+    Just first -> case safeReadInt first of
+        Nothing -> Nothing
+        Jusst num -> Just (num*10)
+```
+
+--- 
+
+# Kombinere Maybe - eksempel
+
+Dette blir veldig klønete. Ser at det er et pattern og skriver finere
+
+```haskell
+andThen :: Maybe a -> (a -> Maybe b) -> Maybe b
+andThen Nothing _ = Nothing
+andTHen (Just a) f = f a
+
+maybeFirstInt = 
+    let
+        first = safeHead numstrs
+        num = andThen first safeRead
+        times10 x = Just x
+    in 
+        andThen times10 num
+```
+
+Kan vi forenkle det her bittelitt? Hint hint : Functors
+
+--- 
+# Kombinere Maybe - eksempel
+
+
+```haskell
+andThen :: Maybe a -> (a -> Maybe b) -> Maybe b
+andThen Nothing _ = Nothing
+andTHen (Just a) f = f a
+
+maybeFirstInt = 
+    let
+        first = safeHead numstrs
+        num = andThen first safeRead
+        times10 x = Just x
+    in 
+        andThen times10 num
+
+-- vs bruke fmap
+
+maybeFirstInt = 
+    let
+        first = safeHead numstrs
+        num = andThen first safeRead
+    in 
+        fmap (*10) num
+```
+
+---
+
+# Kombinere List
+Gjøre noe lignende, bare for lister.
+Vi vil for hvert tall telle opp fra 0 til tallet (3 -> [0,1,2,3]) og så replisere det tallet like mange ganger som seg selv (3 -> [3,3,3])
+
+```haskell
+replicateSelf :: Int -> [Int]
+replicatesef x = replicate x x
+countUp :: Int -> [Int]
+countUp x = [0..x]
+
+nums = [1,2,3]
+
+vi ser at vi må ha en flatMap (andThen9
+```
+
+--- 
+# Kombinere List - flatMap
+
+```haskell
+flatMap :: (a -> [b]) -> [a] -> [b]
+flatMap f xs = concat (fmap f xs)
+--concat er flatten, concat funker :: [[a]] -> [a]
+```
+--- 
+# Kombinere List - flatMap
+
+```haskell
+replicateSelf :: Int -> [Int]
+replicatesef x = replicate x x
+countUp :: Int -> [Int]
+countUp x = [0..x]
+
+nums = [1,2,3]
+
+countedAndReplicated = flatMap replicateSelf (flatMap countUp nums)
+```
+
+--- 
+
+
+# Kombinere State
+
+--- 
+
+# Generalisere
+
+--- 
+
+# Monad
+
+--- 
+
+# Generelle funksjoner - join
+
+--- 
+
+# Generelle funksjoner - >>
+
+--- 
+
+# Do notation
+
+--- 
+
+# Do notation - eksempel
+
+--- 
+
+# A
+
+--- 
+
+# A
+
+
+
 Monad
 eksempler på 
 bind osv >>= Maybe - lookup function og så lookup result
@@ -387,3 +617,10 @@ liftM2
 skrive map2,map3, andMap
 
 do notation
+
+
+generalisering av ?.
+list comprenhensions
+async
+
+Samme notasjon
