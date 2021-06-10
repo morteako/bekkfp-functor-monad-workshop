@@ -51,6 +51,16 @@ instance MyFunctor Identity where
 -- | Oppgave : lag et eksempel som viser bruk av andThen, return og fmap for RemoteData
 
 
+-- | implementer join (kan også kalles flatten)
+-- følg typene
+-- >>> join (Just (Just 2))
+-- Just 1
+-- >>> [[1,2],[1]]
+-- [1,2,1]
+join :: Monad m => m (m a) -> m a
+join = error "TODO join"
 
+-- | bonus : implementer andThen ved hjelp av join og fmap
 
-
+andThenJoin :: Monad m => (a -> m b) -> m a -> m b
+andThenJoin = error "todo andthenjoin"

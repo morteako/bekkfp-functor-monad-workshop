@@ -785,10 +785,10 @@ print 1 >> print 2
 
 --- 
 
-# Do notation - Linjeskift
+# Do notation - andThen : <-
 
-* Linjeskift tilsvarer at man gjør det ene og så det andre.
-* Som i vanlig imperativ programmering
+* andThen får man ved å bruke <-
+* Jeg tenker på som at man drar a-en ut av m a -en , altså monaden
 
 ```haskell
 do 

@@ -3,10 +3,16 @@
 
 module Functors where
 
-import Prelude hiding (fmap, map)
+import Prelude hiding (fmap)
+
 
 class MyFunctor (f :: * -> *) where
   fmap :: (a -> b) -> f a -> f b
+
+instance MyFunctor [] where
+  fmap :: (a -> b) -> [a] -> [b]
+  fmap f [] = []
+  fmap f (x:xs) = f x : fmap f xs
 
 -- | OPPGAVE : implementer MyFunctor Maybe
 -- >>> fmap (+1) (Just 1)
@@ -36,9 +42,11 @@ data RemoteData e a
 -- >>> fmap reverse NotAsked
 -- NotAsked
 
+instance MyFunctor (RemoteData e) where
+  fmap = error "todo"
 
 
--- | OPPGAVE : bruk det du har lært om functors til å gjør om dataStuff til det som står i testen.
+-- | OPPGAVE : bruk det du har lært om functors til å gjøre om dataStuff til det som står i testen.
 -- >>> dataStuffIsEven
 -- [NotAsked,Loading,Failure "Gikk galt",Success True]
 
@@ -51,4 +59,4 @@ dataStuff =
   ]
 
 dataStuffIsEven :: [RemoteData String Bool]
-dataStuffIsEven = error "TODO"
+dataStuffIsEven = error "Her skal det gjøres noe med dataStuff"
