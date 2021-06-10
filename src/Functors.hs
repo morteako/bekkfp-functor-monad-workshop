@@ -18,7 +18,7 @@ instance MyFunctor Maybe where
 data OneOrTwo a = One a | Two a a
   deriving (Show)
 
--- | OPPGAVE : implementer MyFunctor Maybe
+-- | OPPGAVE : implementer MyFunctor OneOrTwo
 -- >>> fmap (+1) (Two 1 2)
 -- Two 2 3
 -- >>> fmap id (One 1)
@@ -35,6 +35,13 @@ data RemoteData e a
 -- Success "CBA"
 -- >>> fmap reverse NotAsked
 -- NotAsked
+
+
+
+-- | OPPGAVE : bruk det du har lært om functors til å gjør om dataStuff til det som står i testen.
+-- >>> dataStuffIsEven
+-- [NotAsked,Loading,Failure "Gikk galt",Success True]
+
 dataStuff :: [RemoteData String Int]
 dataStuff =
   [ NotAsked,
@@ -45,11 +52,3 @@ dataStuff =
 
 dataStuffIsEven :: [RemoteData String Bool]
 dataStuffIsEven = error "TODO"
-
--- | OPPGAVE : bruk det du har lært om functors til å gjør om dataStuff til det som står i testen.
--- >>> dataStuffIsEven
--- [ NotAsked,
---     Loading,
---     Failure "Gikk galt",
---     Success True
---   ]
