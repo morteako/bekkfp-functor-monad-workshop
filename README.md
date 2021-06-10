@@ -13,12 +13,6 @@ Stack - installer via
 #### Kjekt å ha :
 ghcid - `stack install ghcid`
 
-VS Code: 
-* Haskell Syntax Highlighting
-* Haskell extension - (ikke så farlig om det ikke funker, mye hjelp med rask repl fra ghcid)
-
-
-
 ### Sjekke at ting fungerer
 Bygge og kjøre tester : `stack build --test`
 (Kan ta litt tid, pga stack installer også riktig GHC-versjon)
