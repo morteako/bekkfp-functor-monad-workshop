@@ -12,10 +12,10 @@ data RemoteData e a
 -- >>> show (Failure 0)
 -- "Failure 0"
 
---implementer Eq
+-- | implementer Eq
 -- >>> Loading == Loading
 -- True
--- >>> NotAssked == Failure "hei"
+-- >>> NotAsked == Failure "hei"
 -- False
 
 
