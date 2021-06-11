@@ -47,6 +47,7 @@ instance MyFunctor (RemoteData e) where
 
 
 -- | OPPGAVE : bruk det du har lært om functors til å gjøre om dataStuff til det som står i testen.
+-- det finnes allerede even :: Int -> Bool
 -- >>> dataStuffIsEven
 -- [NotAsked,Loading,Failure "Gikk galt",Success True]
 
