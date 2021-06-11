@@ -290,6 +290,10 @@ Feks i egne datatyper.</p>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="17" data-paginate="true" data-marpit-pagination="17" data-marpit-pagination-total="63" style="--paginate:true;">
 <h2>Felles oppgaver - Intro.hs</h2>
+<p>Kan gjøre felles / samtidig.<br />
+Hvis noen føler de har veldig kontroll, kan de løse de på egen hånd.</p>
+<p>Fjern kommentaren fra <code>-- doctest [&quot;-isrc&quot;, &quot;src/Intro.hs&quot;]</code> altså fjern --<br />
+for å kjøre tester</p>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="18" data-paginate="true" data-marpit-pagination="18" data-marpit-pagination-total="63" style="--paginate:true;">
 <h1>Functors</h1>
@@ -380,7 +384,7 @@ Feks i egne datatyper.</p>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="27" data-paginate="true" data-marpit-pagination="27" data-marpit-pagination-total="63" style="--paginate:true;">
 <h2>Lage en type class</h2>
 <p>Siden det er forskjellig implementasjon per type trenger vi en type class</p>
-<pre><code class="language-haskell"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-class"><span class="hljs-keyword">type</span> class <span class="hljs-type">Functor</span> (<span class="hljs-title">f</span> :: * -&gt; *) where</span>
+<pre><code class="language-haskell"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-type">Functor</span> (<span class="hljs-title">f</span> :: * -&gt; *) <span class="hljs-keyword">where</span></span>
     fmap :: (a-&gt;b) -&gt; f a -&gt; f b
 </span></span></foreignObject></svg></code></pre>
 <p>Man kan se det som at man løfter en funksjon til å jobbe på et høyere nivå.<br />
@@ -485,6 +489,12 @@ mapAddOneMaybe, mapAddOneList, mapAddOneEither osvosv</p>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="34" data-paginate="true" data-marpit-pagination="34" data-marpit-pagination-total="63" style="--paginate:true;">
 <h1>Oppgaver</h1>
+<p>Functors.hs</p>
+<p>Fjern kommentaren fra <code>-- doctest [&quot;-isrc&quot;, &quot;src/Functors.hs&quot;]</code> altså fjern --<br />
+for å kjøre tester.</p>
+<p>FunctorsExtra.hs</p>
+<p>Fjern kommentaren fra <code>-- doctest [&quot;-isrc&quot;, &quot;src/FunctorsExtra.hs&quot;]</code> altså fjern --<br />
+for å kjøre tester.</p>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="35" data-marpit-fragments="12" data-paginate="true" data-marpit-pagination="35" data-marpit-pagination-total="63" style="--paginate:true;">
 <h1>Monads</h1>
@@ -651,7 +661,7 @@ Feks State - state-utregninger</p>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="46" data-paginate="true" data-marpit-pagination="46" data-marpit-pagination-total="63" style="--paginate:true;">
 <h1>Monad*</h1>
-<pre><code class="language-haskell"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-class"><span class="hljs-keyword">type</span> class <span class="hljs-type">Monad</span> m where</span>
+<pre><code class="language-haskell"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-type">Monad</span> m <span class="hljs-keyword">where</span></span>
     andThen :: (a -&gt; m b) -&gt; m a -&gt; m b
 </span></span></foreignObject></svg></code></pre>
 <p>Nå er vi veldig nærme å ha en fullverdig definisjon av Monad</p>
@@ -686,7 +696,7 @@ fmap via andThen (typemessig og lovmessig)</p>
 </li>
 <li data-marpit-fragment="5">legger på return</li>
 </ul>
-<pre><code class="language-haskell"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-class"><span class="hljs-keyword">type</span> class <span class="hljs-type">Functor</span> f =&gt; <span class="hljs-type">Monad</span> m where</span>
+<pre><code class="language-haskell"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-type">Functor</span> f =&gt; <span class="hljs-type">Monad</span> m <span class="hljs-keyword">where</span></span>
     andThen :: (a -&gt; m b) -&gt; m a -&gt; m b
     return :: a -&gt; m a
 </span></span></foreignObject></svg></code></pre>
@@ -703,14 +713,14 @@ fmap via andThen (typemessig og lovmessig)</p>
 </li>
 <li data-marpit-fragment="5">legger på return</li>
 </ul>
-<pre><code class="language-haskell"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-class"><span class="hljs-keyword">type</span> class <span class="hljs-type">Functor</span> f =&gt; <span class="hljs-type">Monad</span> m where</span>
+<pre><code class="language-haskell"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-type">Functor</span> f =&gt; <span class="hljs-type">Monad</span> m <span class="hljs-keyword">where</span></span>
     andThen :: (a -&gt; m b) -&gt; m a -&gt; m b
     return :: a -&gt; m a
 </span></span></foreignObject></svg></code></pre>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="50" data-paginate="true" data-marpit-pagination="50" data-marpit-pagination-total="63" style="--paginate:true;">
 <h1>Monad instance - Maybe</h1>
-<pre><code class="language-haskell"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-class"><span class="hljs-keyword">type</span> class <span class="hljs-type">Functor</span> f =&gt; <span class="hljs-type">Monad</span> m where</span>
+<pre><code class="language-haskell"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-type">Functor</span> f =&gt; <span class="hljs-type">Monad</span> m <span class="hljs-keyword">where</span></span>
     andThen :: (a -&gt; m b) -&gt; m a -&gt; m b
     return :: a -&gt; m a
 <span class="hljs-class">
@@ -847,6 +857,10 @@ async/Promises</p>
 <h1>Oppgaver</h1>
 <ul>
 <li data-marpit-fragment="1">Monads.hs</li>
+</ul>
+<p>Fjern kommentaren fra <code>-- doctest [&quot;-isrc&quot;, &quot;src/Monads.hs&quot;]</code> altså fjern --<br />
+for å kjøre tester osv.</p>
+<ul>
 <li data-marpit-fragment="2">MonadsDo.hs</li>
 <li data-marpit-fragment="3">MonadsExtra.hs</li>
 </ul>
