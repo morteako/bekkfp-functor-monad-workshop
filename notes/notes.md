@@ -31,7 +31,7 @@ marp: true
 # Syntaks
 
 * Mye likt som Elm
-    * Elm-syntaks er ca et subset av Haskell-syntaks
+    * Elm-syntaks er ca et subset av Haskell-syntaks, med noen små endringer
 
 ```haskell
 funksjonsNavn :: a -> Maybe a
@@ -483,15 +483,7 @@ andThen :: (a -> Maybe b) -> Maybe a -> Maybe b
 andThen _ Nothing= Nothing
 andThen f (Just a) = f a
 
-maybeFirstInt = 
-    let
-        first = safeHead numstrs
-        num = andThen first safeRead
-        times10 x = Just (x * 10)
-    in 
-        andThen times10 num
-
---piping
+--piping som i elm, & = |>
 maybeFirstInt = numstrs
     & safeHead numstrs
     & andThen safeRead
@@ -566,7 +558,9 @@ countedAndReplicated = nums
 --- 
 
 # Kombinere State
-
+Lister og Maybe er jo ganske like. De inneholder enten 0 - 1 eller 0  - uendelig mange verdier.
+Men alle Monads er ikke sånn.
+Feks State - state-utregninger
 ```haskell
 data State s a
 s er typen til staten
@@ -702,11 +696,8 @@ instance Monad Maybe where
     return x = Just x
 ```
 --- 
-
-# Generelle funksjoner - join
-
 --- 
-# Generelle funksjoner - >>
+# >> - gjøre ting i sekvens
 
 * andThen kombinerer to monadiske utregninger
 * Ofte vil man gjøre noe kun for effekten og ikke verdien.
@@ -716,7 +707,7 @@ instance Monad Maybe where
 ma >> mb :: Monad m => m a -> m b -> m b
 ma >> mb = andThen (\_ -> mb) ma
 
-print 1 >> print 2
+print 1 >> print 2 --printer 1 og så 2
 
 drop3IfNotEmpty :: [a] -> Maybe [a]
 drop3IfNotEmpty xs = safeHead xs >> return (drop 3 xs)
@@ -785,7 +776,7 @@ print 1 >> print 2
 
 --- 
 
-# Do notation - andThen : <-
+# Do notation - andThen
 
 * andThen får man ved å bruke <-
 * Jeg tenker på som at man drar a-en ut av m a -en , altså monaden
@@ -822,32 +813,44 @@ map2Do f fa fb = do
 ```
 
 ---
+# Generelle funksjoner
 
-# A
+Siden vi har muligheten til å generalisere monads, kan vi lage generelle funksjoner
+Feks en som gjentar en monadisk effekt flere ganger og samler opp resultatene i en liste
 
+```haskell
+replicateM :: Monad m => Int -> m a -> m [a]
+
+> replicateM 3 getLine
+aa
+bbb
+cccc
+["aa","bbb","cccc"]
+
+> replicateM 3 [1,2]
+[[1,1,1],[1,1,2],[1,2,1],[1,2,2],[2,1,1],[2,1,2],[2,2,1],[2,2,2]]
+```
+
+---
+
+# Monads samler mange konsepter og gjør språket mindre
+Generalisering av ?.
+list comprenhensions
+async/Promises
+
+Samme uniforme notasjon istedenfor spesialbygget syntaks
+
+---
 
 # Oppgaver
 
-(>=>)
-skrive map2,map3, andMap
+* Monads.hs
+* MonadsDo.hs
+* MonadsExtra.hs
 
-eksempler
-generaliserte eksempler
+---
 
-generell join / flatten
-
-
-
-prøve å finne noe kort og lurt og si om reglene
-
-replicateM
-when
-liftM2
+# Oppsummering
+---
 
 
-
-generalisering av ?.
-list comprenhensions
-async
-
-Samme notasjon

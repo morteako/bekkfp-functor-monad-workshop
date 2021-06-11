@@ -1,5 +1,5 @@
 
-module Monadsdo where
+module MonadsDo where
 
 
 --Her brukes den ordentlige Monad-classen i standardbiblioteket. 
