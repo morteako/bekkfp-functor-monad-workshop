@@ -141,9 +141,9 @@ instance Eq Bool where
     _ == _ = False
 
 instance Eq a => Eq [a] where
-    [] == []
+    [] == [] = True
     (x:xs) == (y:ys) = x == y && xs == ys
-    _ == _ False
+    _ == _ = False
 ```
 ---
 
@@ -205,14 +205,14 @@ Her tar IntContainer inn en typekonstruktør med ett argument
 ```haskell
 data IntContainer (f :: *  -> *) = IntContainer (f Int)
 
-IntCointainer (Just 1) :: IntContainer Maybe
+IntContainer (Just 1) :: IntContainer Maybe
     siden Maybe har kind * -> *, så passer i IntContainer
 
-IntCointainer [1] :: IntContainer List
+IntContainer [1] :: IntContainer List
     siden List har kind * -> *, så den passer også inn i IntContainer
 
 --FUNKER IKKE
-IntContainer "hei" :: IntCointainer String
+IntContainer "hei" :: IntContainer String
     siden String har kind *, altså ikke en typekonstruktør, så passer den ikke inn og dette fungerer ikke 
 ```
 ---
@@ -291,7 +291,7 @@ Just "1"
 
 
 ```haskell
-mapEither :: (a->b) -> Either e a -> Either e a
+mapEither :: (a->b) -> Either e a -> Either e b
 mapEither f (Right a) = Right (f a)
 mapEither f (Left e) = Left e
 
@@ -376,7 +376,7 @@ mapAddOne = fmap (+1)
 > mapAddOne (Just 1)
 Just 2
 
-> mapaddone [1,2,3]
+> mapAddone [1,2,3]
 [2,3,4]
 ```
 
@@ -418,7 +418,7 @@ Uten en functor-typeclasse så måtte man skrevet en implementasjon av denne fun
     * fmap id x = x
     * id er identitetsfunksjonen, altså id a = a
 * Mappe flere ganger er samme som en gang
-    * fmap f (fmap g) x = fmap (f . g) x
+    * fmap f (fmap g x) = fmap (f . g) x
     * Dette følger automatisk i Haskell av første regelen
 * Dette, sammen med typesignaturen, gjør at det finnes kun en lovlig Functor instance for hver typekonstruktør 
 ---
