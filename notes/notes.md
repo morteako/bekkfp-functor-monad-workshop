@@ -340,7 +340,7 @@ f er da en higher kinded type
 Siden det er forskjellig implementasjon per type trenger vi en type class
 
 ```haskell
-type class Functor (f :: * -> *) where
+class Functor (f :: * -> *) where
     fmap :: (a->b) -> f a -> f b
 ```
 
@@ -642,7 +642,7 @@ andThen :: (a -> State s b) -> State s a -> State s b -- f er State s b
 
 # Monad*
 ```haskell
-type class Monad m where
+class Monad m where
     andThen :: (a -> m b) -> m a -> m b
 ```
 
@@ -679,7 +679,7 @@ fmapFromAndThen f ma = andThen (\x -> return (f x)) ma
     * Functor superklasse av Monads
 * legger på return   
 ```haskell
-type class Functor f => Monad m where
+class Functor f => Monad m where
     andThen :: (a -> m b) -> m a -> m b
     return :: a -> m a
 ```
@@ -693,7 +693,7 @@ type class Functor f => Monad m where
     * Functor superklasse av Monads
 * legger på return   
 ```haskell
-type class Functor f => Monad m where
+class Functor f => Monad m where
     andThen :: (a -> m b) -> m a -> m b
     return :: a -> m a
 ```
@@ -702,7 +702,7 @@ type class Functor f => Monad m where
 # Monad instance - Maybe
 
 ```haskell
-type class Functor f => Monad m where
+class Functor f => Monad m where
     andThen :: (a -> m b) -> m a -> m b
     return :: a -> m a
 
