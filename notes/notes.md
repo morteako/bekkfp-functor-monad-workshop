@@ -239,6 +239,13 @@ instance Summable List where
 ---
 ## Felles oppgaver - Intro.hs
 
+Kan gjøre felles / samtidig.
+Hvis noen føler de har veldig kontroll, kan de løse de på egen hånd.
+
+Fjern kommentaren fra `-- doctest ["-isrc", "src/Intro.hs"]` altså fjern --
+for å kjøre tester
+
+
 ---
 # Functors
 ## Typer som kan bli mappet over
@@ -433,6 +440,18 @@ instance Functor Two where
 ---
 
 # Oppgaver
+
+Functors.hs
+
+Fjern kommentaren fra `-- doctest ["-isrc", "src/Functors.hs"]` altså fjern --
+for å kjøre tester.
+
+FunctorsExtra.hs
+
+Fjern kommentaren fra `-- doctest ["-isrc", "src/FunctorsExtra.hs"]` altså fjern --
+for å kjøre tester.
+
+
 
 
 ---
@@ -845,8 +864,14 @@ Samme uniforme notasjon istedenfor spesialbygget syntaks
 # Oppgaver
 
 * Monads.hs
+
+Fjern kommentaren fra `-- doctest ["-isrc", "src/Monads.hs"]` altså fjern --
+for å kjøre tester osv.
+
 * MonadsDo.hs
 * MonadsExtra.hs
+
+
 
 ---
 
