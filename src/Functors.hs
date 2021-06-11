@@ -60,4 +60,4 @@ dataStuff =
   ]
 
 dataStuffIsEven :: [RemoteData String Bool]
-dataStuffIsEven = error "Her skal det gjøres noe med dataStuff"
+dataStuffIsEven = fmap (fmap even) dataStuff

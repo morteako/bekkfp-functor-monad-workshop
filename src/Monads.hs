@@ -5,7 +5,7 @@ module Monads where
 
 import Data.Function
 import Functors
-import Prelude hiding (return)
+import Prelude hiding (return,fmap)
 import qualified Prelude
 
 class MyFunctor m => MyMonad (m :: * -> *) where
@@ -13,10 +13,8 @@ class MyFunctor m => MyMonad (m :: * -> *) where
   return :: a -> m a
 
 -- | Oppgave : implementer MyMonad-instance for Maybe (prøv uten å se på slides først)
--- >>> andThen checkIfEven (Right 3)
--- Right 3
--- >>> andThen checkIfOdd (Right 3)
--- Left "Not odd"
+
+
 checkIfOdd :: Int -> Either String Int
 checkIfOdd x = if odd x then Right x else Left "Not odd"
 
@@ -35,8 +33,8 @@ instance MyFunctor Identity where
 
 -- | Oppgave : implementer MyMonad-instance for Identity
 -- | Tips : Følg typene! Eller tenk på den som Maybe uten Nothing-case 
--- >>> andThen (\x -> Identity (x+x) (return 3)
--- Right 3
+-- >>> andThen (\x -> Identity (x+x)) (return 3)
+-- Identity 6
 
 -- definert i Functors.hs
 -- data RemoteData e a
@@ -57,10 +55,10 @@ instance MyFunctor Identity where
 -- Just 1
 -- >>> [[1,2],[1]]
 -- [1,2,1]
-join :: Monad m => m (m a) -> m a
+join :: MyMonad m => m (m a) -> m a
 join = error "TODO join"
 
 -- | bonus : implementer andThen ved hjelp av join og fmap
 
-andThenJoin :: Monad m => (a -> m b) -> m a -> m b
+andThenJoin :: MyMonad m => (a -> m b) -> m a -> m b
 andThenJoin = error "todo andthenjoin"
