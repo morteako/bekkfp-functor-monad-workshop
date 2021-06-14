@@ -14,9 +14,8 @@ class MyFunctor m => MyMonad (m :: * -> *) where
 
 -- | Oppgave : implementer MyMonad-instance for Maybe (prøv uten å se på slides først)
 instance MyMonad Maybe where
-  andThen f Nothing = Nothing
-  andThen f (Just a) = f a
-  return = Just
+  andThen = error "todo"
+  return = error "todo"
 
 checkIfOdd :: Int -> Either String Int
 checkIfOdd x = if odd x then Right x else Left "Not odd"
@@ -26,11 +25,6 @@ instance MyFunctor (Either e) where
   fmap f (Left e) = Left e
   fmap f (Right a) = Right (f a)
 
-instance MyMonad (Either e)  where
-  andThen f (Left e) = Left e
-  andThen f (Right a) = f a
-  
-  return = Right
 
 -- | Oppgave : implementer MyMonad-instance for Either
 -- >>> andThen checkIfOdd (return 3)
@@ -42,17 +36,12 @@ instance MyMonad (Either e)  where
 --identitetsfunksjonen som en datatype, på en måte
 data Identity a = Identity a deriving (Show)
 
-instance MyFunctor Identity where
-    fmap f (Identity a) = Identity (f a)
 
 -- | Oppgave : implementer MyMonad-instance for Identity
 -- | Tips : Følg typene! Eller tenk på den som Maybe uten Nothing-case 
 -- >>> andThen (\x -> Identity (x+x)) (return 3)
 -- Identity 6
 
-instance MyMonad Identity where
-  andThen f (Identity a) = f a
-  return = Identity
 
 -- definert i Functors.hs
 -- data RemoteData e a
@@ -74,9 +63,9 @@ instance MyMonad Identity where
 -- >>> join (Right (Left 1))
 -- Left 1
 join :: MyMonad m => m (m a) -> m a
-join = andThen id
+join = error "todo"
 
 -- | bonus : implementer andThen ved hjelp av join og fmap
 
 andThenJoin :: MyMonad m => (a -> m b) -> m a -> m b
-andThenJoin amb ma = join (fmap amb ma)
+andThenJoin = error "todo"

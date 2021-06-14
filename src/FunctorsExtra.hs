@@ -17,12 +17,12 @@ import Functors
 -- ["a","a"]
 
 setValue :: MyFunctor f => a -> f b -> f a
-setValue x = fmap (\_ -> x)
+setValue = error "todo"
 
 data State s a = State (s -> (a, s))
 
 instance MyFunctor (State s) where
-  fmap f (State sf) = State (\s -> let (a,s') = sf s in (f a, s'))
+  fmap = error "todo"
 
 
 data Identity a = Identity a
@@ -32,13 +32,13 @@ data Const a b = Const a
 data Compose f g a = Compose (f (g a))
 
 instance MyFunctor Identity where
-  fmap f (Identity a) = Identity (f a)
+  fmap = error "todo"
 
 instance MyFunctor (Const a) where
-  fmap f (Const c) = Const c
+  fmap = error "todo"
 
 instance (MyFunctor f, MyFunctor g) => MyFunctor (Compose f g) where
-  fmap f (Compose fga) = Compose (fmap (fmap f) fga)
+  fmap = error "todo"
 
 
 
@@ -52,16 +52,16 @@ type Lens s t a b = forall f. MyFunctor f => (a -> f b) -> s -> f t
 -- >>> view _1 ("hei",1)
 -- "hei"
 view :: Lens s s a a -> s -> a
-view lens s = let Const a = lens Const s in a
+view lens s = error "todo"
 
 _1 :: Lens (a, c) (b, c) a b
-_1 a2fb (a, c) = fmap (\x  -> (x,c)) (a2fb a)
+_1 = error "todo"
 
   
 -- | Oppgave  : implementer _2 (samme som _1, bare for verdi nr 2)
 -- >>> view _2 ("hei",1)
 -- 1
 _2 :: Lens (c, a) (c, b) a b
-_2 a2fb (c, a) = fmap (\x  -> (c,x)) (a2fb a)
+_2 = error "todo"
 
   

@@ -1,4 +1,7 @@
+{-# LANGUAGE KindSignatures #-}
+
 module Intro where
+
 
 
 -- | Compute Fibonacci numbers
@@ -11,9 +14,7 @@ module Intro where
 -- >>> fib 5
 -- 5
 fib :: Int -> Int
-fib 0 = 0
-fib 1 = 1
-fib n = fib (n-1) + fib (n-2)
+fib = error "TODO"
 
 data RemoteData e a
   = NotAsked
@@ -29,10 +30,7 @@ data RemoteData e a
 -- "Failure 0"
 
 instance (Show e,Show a) => Show (RemoteData e a) where
-  show NotAsked = "NotAsked"
-  show Loading = "Loading"
-  show (Failure e) = "Failure " ++ show e
-  show (Success a) = "Success " ++ show a
+  show = error "TODO"
 
 -- | implementer Eq
 -- >>> Loading == Loading
@@ -41,32 +39,17 @@ instance (Show e,Show a) => Show (RemoteData e a) where
 -- False
 
 instance (Eq e, Eq a) => Eq (RemoteData e a) where
-  NotAsked == NotAsked = True
-  Loading == Loading = True
-  Failure e1 == Failure e2 = e1 == e2
-  Success a1 == Success a2 = a1 == a2
-  _ == _ = False
+  (==) = error "TODO"
 
 
 --Lag en type class for "containers/collections"
 -- som kan ha 0 eller flere elementer
 
-class Container f where
-  isEmpty :: f a -> Bool 
-  first :: f a -> Maybe a
+class Container (f :: * -> *) where
 
 instance Container [] where
-  isEmpty [] = True
-  isEmpty _ = False
-
-  first [] = Nothing
-  first (x:_) = Just x
 
 instance Container Maybe where
-  isEmpty Nothing = True
-  isEmpty _ = False
-
-  first = id
 
 -- | en funksjon som heter isEmpty som gir true eller false
 -- >>> isEmpty [1,2,3]

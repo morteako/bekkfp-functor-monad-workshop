@@ -19,8 +19,7 @@ instance MyFunctor [] where
 -- Just 2
 instance MyFunctor Maybe where
   fmap :: (a -> b) -> Maybe a -> Maybe b
-  fmap f Nothing = Nothing
-  fmap f (Just a) = Just (f a)
+  fmap = error "todo"
 
 data OneOrTwo a = One a | Two a a
   deriving (Show)
@@ -31,9 +30,6 @@ data OneOrTwo a = One a | Two a a
 -- >>> fmap id (One 1)
 -- One 1
 
-instance MyFunctor OneOrTwo where
-  fmap f (One a)  = One (f a)
-  fmap f (Two a b) = Two (f a) (f b)
 
 
 data RemoteData e a
@@ -49,12 +45,6 @@ data RemoteData e a
 -- >>> fmap reverse NotAsked
 -- NotAsked
 
-instance MyFunctor (RemoteData e) where
-  fmap f r = case r of
-    Loading -> Loading
-    NotAsked -> NotAsked
-    Failure e -> Failure e
-    Success a -> Success (f a)
 
 
 -- | OPPGAVE : bruk det du har lært om functors til å gjøre om dataStuff til det som står i testen.
@@ -71,4 +61,4 @@ dataStuff =
   ]
 
 dataStuffIsEven :: [RemoteData String Bool]
-dataStuffIsEven = fmap (fmap even) dataStuff
+dataStuffIsEven = error "todo"
