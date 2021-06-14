@@ -18,8 +18,9 @@ instance MyFunctor [] where
 -- >>> fmap (+1) (Just 1)
 -- Just 2
 instance MyFunctor Maybe where
-  -- fmap :: Fyll inn og fjern kommentar
-  fmap = error "TODO"
+  fmap :: (a -> b) -> Maybe a -> Maybe b
+  fmap f Nothing = Nothing
+  fmap f (Just a) = Just (f a)
 
 data OneOrTwo a = One a | Two a a
   deriving (Show)
@@ -29,6 +30,12 @@ data OneOrTwo a = One a | Two a a
 -- Two 2 3
 -- >>> fmap id (One 1)
 -- One 1
+
+instance MyFunctor OneOrTwo where
+  fmap f (One a)  = One (f a)
+  fmap f (Two a b) = Two (f a) (f b)
+
+
 data RemoteData e a
   = NotAsked
   | Loading
@@ -43,7 +50,11 @@ data RemoteData e a
 -- NotAsked
 
 instance MyFunctor (RemoteData e) where
-  fmap = error "todo"
+  fmap f r = case r of
+    Loading -> Loading
+    NotAsked -> NotAsked
+    Failure e -> Failure e
+    Success a -> Success (f a)
 
 
 -- | OPPGAVE : bruk det du har lært om functors til å gjøre om dataStuff til det som står i testen.

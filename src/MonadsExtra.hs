@@ -1,29 +1,28 @@
 module MonadsExtra where
 
+import Functors
 import FunctorsExtra
+import Monads
 
--- Ignorer det her
-instance Applicative (State s) where
-    pure = undefined
-    (<*>) = undefined
 
---oppgave : Lag Monad-instance
-instance Monad (State s) where
-    (>>=) = undefined -- se MonadsDo.hs
-    return = undefined
 
-data Func a b = Func (a -> b)
+--oppgave : Lag Monad-instance for State
+instance MyMonad (State s) where
+    andThen f (State fs) = State (\s -> let
+        (a,s') = fs s
+        State res = f a
+        in res s')
+    return a = State (\s -> (a,s))
 
---oppgave : Lag functor- og monadinstance for Func a
 
-instance Functor (Func a) where
-    fmap = undefined
+--oppgave : Lag functor- og monadinstance for funksjoner
+-- a -> b
+-- ((->) a b)
 
--- ignorer 
-instance Applicative (Func a) where
-    pure = undefined
-    (<*>) = undefined 
+instance MyFunctor ((->) a) where
+    fmap = (.)
 
-instance Monad (Func a) where
-  return = undefined
-  (>>=) = undefined
+
+instance MyMonad ((->) a) where
+  andThen = \f g a -> f (g a) a
+  return = const

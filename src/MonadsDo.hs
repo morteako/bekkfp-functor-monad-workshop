@@ -15,12 +15,26 @@ andThen = flip (>>=)
 -- | skriv map3 med do-notation. Bonus : uten do-notation
 -- >>> map3 (\x y z -> x+y+z) (Just 3) (Just 3) (Just 3)
 -- Just 9
-map3 :: Monad m => (a -> b -> c -> d) -> m a -> m b -> m c
-map3 = error "todo map3"
+map3 :: Monad m => (a -> b -> c -> d) -> m a -> m b -> m c -> m d
+map3 f ma mb mc = do
+    a <- ma
+    b <- mb
+    c <- mc
+    return (f a b c)
+
+map3AndThen :: Monad m => (a -> b -> c -> d) -> m a -> m b -> m c -> m d
+map3AndThen f ma mb mc = 
+    andThen (\a ->
+        andThen (\b ->
+            andThen (\c ->
+                return (f a b c)) mc) mb) ma
 
 -- skriv andMap med do-notation
 andMap :: Monad m => m (a -> b) -> m a -> m b
-andMap = error "todo andmap"
+andMap mab ma = do
+    f <- mab
+    a <- ma
+    return (f a)
 
 
 
@@ -30,21 +44,21 @@ andMap = error "todo andmap"
 -- [(1,2,3),(1,2,3)]
 list1233 :: [(Int,Int,Int)]
 list1233 = do
-    one <- undefined 1
-    two <- undefined (+1) 2
-    three <- undefined
+    one <- return 1
+    two <- andThen (\x -> [x,x]) [2]
+    three <- fmap (+1) [2]
     return (one,two,three) 
 
 
 -- | Hva blir resultatet av de forskjellige uttrykene? prøv å evaluer i hodet før du sjekker i repl
 -- Det kan kanskje hjelpe å skrive om til do-notation eller and-then
 --
--- Just 2 >> Just 3
+-- Just 2 >> Just 3 blir Just 3
 --
--- Nothing >> Just 3
+-- Nothing >> Just 3 blir Nothing
 --
--- Just 4 >> Nothing
+-- Just 4 >> Nothing blir Nothing
 --
--- [1,2,3] >> ["2","2"]
+-- [1,2,3] >> ["2","2"] blir ["2","2","2","2","2","2"]
 --
--- ["2","2"] >> [1,2,3]
+-- ["2","2"] >> [1,2,3] blir [1,2,3,1,2,3]
