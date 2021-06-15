@@ -1,8 +1,8 @@
-name:                bekkfp-functor-monad-workkshop
+name:                bekkfp-functor-monad-workshop
 version:             0.1.0.0
 #synopsis:
 #description:
-homepage:            https://github.com/githubuser/bekkfp-functor-monad-workkshop#readme
+homepage:            https://github.com/githubuser/bekkfp-functor-monad-workshop#readme
 license:             BSD3
 author:              Author name here
 maintainer:          example@example.com
@@ -16,9 +16,12 @@ dependencies:
   - doctest
 
 executables:
-  bekkfp-functor-monad-workkshop:
+  bekkfp-functor-monad-workshop:
     source-dirs:      src
     main:             Main.hs
+    when:
+    - condition: false
+      other-modules: Paths_bekkfp_functor_monad_workshop
 
 tests:
   doctests:

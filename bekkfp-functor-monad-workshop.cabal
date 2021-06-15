@@ -4,12 +4,12 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 2666fd652618c74ea39c401ee29d034d04a5fa9501288e85ee2027c122d54404
+-- hash: eb6d01fc8a34bdbdaaaf57f2d16f48855e803ef66ba0cc13fb327e105e7dc6ee
 
-name:           bekkfp-functor-monad-workkshop
+name:           bekkfp-functor-monad-workshop
 version:        0.1.0.0
 category:       Web
-homepage:       https://github.com/githubuser/bekkfp-functor-monad-workkshop#readme
+homepage:       https://github.com/githubuser/bekkfp-functor-monad-workshop#readme
 author:         Author name here
 maintainer:     example@example.com
 copyright:      2021 Author name here
@@ -19,7 +19,7 @@ build-type:     Simple
 extra-source-files:
     README.md
 
-executable bekkfp-functor-monad-workkshop
+executable bekkfp-functor-monad-workshop
   main-is: Main.hs
   other-modules:
       Functors
@@ -28,19 +28,21 @@ executable bekkfp-functor-monad-workkshop
       Monads
       MonadsDo
       MonadsExtra
-      Paths_bekkfp_functor_monad_workkshop
   hs-source-dirs:
       src
   build-depends:
       base >=4.7 && <5
     , doctest
+  if false
+    other-modules:
+        Paths_bekkfp_functor_monad_workshop
   default-language: Haskell2010
 
 test-suite doctests
   type: exitcode-stdio-1.0
   main-is: Doctest.hs
   other-modules:
-      Paths_bekkfp_functor_monad_workkshop
+      Paths_bekkfp_functor_monad_workshop
   hs-source-dirs:
       test
   build-depends:
