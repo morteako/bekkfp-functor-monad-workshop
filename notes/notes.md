@@ -715,7 +715,6 @@ instance Monad Maybe where
     return x = Just x
 ```
 --- 
---- 
 # >> - gjøre ting i sekvens
 
 * andThen kombinerer to monadiske utregninger
@@ -744,7 +743,7 @@ Nothing
 Just 5
 
 map2 :: Monad m => (a -> b -> c) -> m a -> m b -> m c
-map2 f ma mb = andThen (\a -> andThen (\b -> return (f a b)) ma
+map2 f ma mb = andThen (\a -> andThen (\b -> return (f a b) mb) ma
 ```
 
 Oppgaver å lage map3 og andMap
@@ -790,8 +789,9 @@ do
 ```
 samme som
 
+```haskell
 print 1 >> print 2
-
+```
 
 --- 
 
