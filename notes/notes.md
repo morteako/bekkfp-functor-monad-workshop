@@ -1,4 +1,6 @@
 ---
+
+
 marp:true
 marp: true
 ---
@@ -261,7 +263,7 @@ for å kjøre tester
 ```haskell
 mapList :: (a->b) -> List a -> List b
 mapList f [] = []
-mapList f (x:xs) = f x : map f xs
+mapList f (x:xs) = f x : mapList f xs
 
 > mapList not []
 []
@@ -504,7 +506,7 @@ andThen f (Just a) = f a
 
 --piping som i elm, & = |>
 maybeFirstInt = numstrs
-    & safeHead numstrs
+    & safeHead
     & andThen safeRead
     & andThen (\x -> Just (x * 10))
 ```
@@ -522,7 +524,7 @@ andThen f (Just a) = f a
 
 --piping , samme som Elm sin |>
 maybeFirstInt = numstrs
-    & safeHead numstrs
+    & safeHead
     & andThen safeRead
     & fmap (*10))
 ```
@@ -568,7 +570,7 @@ countedAndReplicated = fmap show (flatMap replicateSelf (flatMap countUp nums))
 
 -- lettere med chaining
 
-countedAndReplicated = nums
+countedAndReplicated2 = nums
     & flatMap countUp
     & flatMap replicateSelf
     & fmap show
@@ -743,7 +745,7 @@ Nothing
 Just 5
 
 map2 :: Monad m => (a -> b -> c) -> m a -> m b -> m c
-map2 f ma mb = andThen (\a -> andThen (\b -> return (f a b) mb) ma
+map2 f ma mb = andThen (\a -> andThen (\b -> return (f a b)) mb) ma
 ```
 
 Oppgaver å lage map3 og andMap
@@ -868,14 +870,12 @@ Samme uniforme notasjon istedenfor spesialbygget syntaks
 Fjern kommentaren fra `-- doctest ["-isrc", "src/Monads.hs"]` altså fjern --
 for å kjøre tester osv.
 
+
 * MonadsDo.hs
 * MonadsExtra.hs
 
+Samme som ovenfor
 
-
----
-
-# Oppsummering
 ---
 
 
