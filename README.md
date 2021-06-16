@@ -1,5 +1,9 @@
 # bekkfp-functor-monad-workkshop
 
+## Slides
+Slides : `notes/notes.html`
+
+Markdown : `notes/notes.md` 
 
 ## Installering 
 
